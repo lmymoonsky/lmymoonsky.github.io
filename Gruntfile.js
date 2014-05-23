@@ -1,46 +1,106 @@
-module.exports = function(grunt){
+'use strict';
+module.exports = function(grunt) {
+
   grunt.initConfig({
-    gitclone: {
-      fontawesome: {
-        options: {
-          repository: 'https://github.com/FortAwesome/Font-Awesome.git',
-          directory: 'tmp/fontawesome'
-        },
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
       },
-      fancybox: {
+      all: [
+        'Gruntfile.js',
+        'assets/js/*.js',
+        '!assets/js/plugins/*.js',
+        '!assets/js/scripts.min.js'
+      ]
+    },
+    recess: {
+      dist: {
         options: {
-          repository: 'https://github.com/fancyapps/fancyBox.git',
-          directory: 'tmp/fancybox'
+          compile: true,
+          compress: true
+        },
+        files: {
+          'assets/css/main.min.css': [
+            'assets/less/main.less'
+          ]
         }
       }
     },
-    copy: {
-      fontawesome: {
-        expand: true,
-        cwd: 'tmp/fontawesome/fonts/',
-        src: ['**'],
-        dest: 'source/css/fonts/'
-      },
-      fancybox: {
-        expand: true,
-        cwd: 'tmp/fancybox/source/',
-        src: ['**'],
-        dest: 'source/fancybox/'
+    uglify: {
+      dist: {
+        files: {
+          'assets/js/scripts.min.js': [
+            'assets/js/plugins/*.js',
+            'assets/js/_*.js'
+          ]
+        }
       }
     },
-    _clean: {
-      tmp: ['tmp'],
-      fontawesome: ['source/css/fonts'],
-      fancybox: ['source/fancybox']
+    imagemin: {
+      dist: {
+        options: {
+          optimizationLevel: 7,
+          progressive: true
+        },
+        files: [{
+          expand: true,
+          cwd: 'images/',
+          src: '{,*/}*.{png,jpg,jpeg}',
+          dest: 'images/'
+        }]
+      }
+    },
+    svgmin: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'images/',
+          src: '{,*/}*.svg',
+          dest: 'images/'
+        }]
+      }
+    },
+    watch: {
+      less: {
+        files: [
+          'assets/less/*.less'
+        ],
+        tasks: ['recess']
+      },
+      js: {
+        files: [
+          '<%= jshint.all %>'
+        ],
+        tasks: ['jshint','uglify']
+      }
+    },
+    clean: {
+      dist: [
+        'assets/css/main.min.css',
+        'assets/js/scripts.min.js'
+      ]
     }
   });
 
-  require('load-grunt-tasks')(grunt);
+  // Load tasks
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-recess');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-svgmin');
 
-  grunt.renameTask('clean', '_clean');
+  // Register tasks
+  grunt.registerTask('default', [
+    'clean',
+    'recess',
+    'uglify',
+    'imagemin',
+    'svgmin'
+  ]);
+  grunt.registerTask('dev', [
+    'watch'
+  ]);
 
-  grunt.registerTask('fontawesome', ['gitclone:fontawesome', 'copy:fontawesome', '_clean:tmp']);
-  grunt.registerTask('fancybox', ['gitclone:fancybox', 'copy:fancybox', '_clean:tmp']);
-  grunt.registerTask('default', ['gitclone', 'copy', '_clean:tmp']);
-  grunt.registerTask('clean', ['_clean']);
 };
