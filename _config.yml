@@ -1,23 +1,26 @@
-# Dependencies
-markdown:         redcarpet
-highlighter:      pygments
+# Header
+menu:
+  Home: /
+  Archives: /archives
+rss: /atom.xml
 
-# Permalinks
-permalink:        pretty
+# Content
+excerpt_link: Read More
+fancybox: true
 
-# Setup
-title:            Lanyon
-tagline:          'A Jekyll theme'
-description:      'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
-url:              http://lanyon.getpoole.com
-paginate:         5
+# Sidebar
+sidebar: right
+widgets:
+- category
+- tag
+- tagcloud
+- archive
+- recent_posts
 
-author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
-
-# Custom vars
-version:          1.0.0
-
-github:
-  repo:           https://github.com/poole/lanyon
+# Miscellaneous
+google_analytics:
+favicon: /favicon.png
+twitter:
+google_plus:
+fb_admins:
+fb_app_id:
