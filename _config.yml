@@ -2,14 +2,14 @@ title:            Site Title
 description:      Describe your website.
 # Your site's domain goes here. Leave localhost server or blank when working locally.
 url:              http://lmymoonsky.github.io/
-disqus_shortname:
+disqus_shortname: lmymoonsky
 
 # Owner/author information
 owner:
   name:           lmymoonsky
   avatar:         bio-photo.jpg
   bio:            "Describe your self."
-  email:          your@email.com
+  email:          lmy_moonsky@163.com
   # Social networking links are used in author-bio sidebar. Update and remove as you like.
   twitter:
   facebook:
